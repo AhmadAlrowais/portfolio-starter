@@ -70,7 +70,7 @@ body {
 }
 
 /* Arabic pages use IBM Plex Sans Arabic for text and Amiri for display. */
-:lang(ar) {
+[lang="ar"] {
   font-family: var(--font-plex-ar), var(--font-plex), system-ui, sans-serif;
 }
 .font-display:lang(ar) {
@@ -84,12 +84,23 @@ li:lang(ar) {
   line-height: 1.9;
 }
 
+/* Slanted (italic) Arabic reads badly, so emphasis stays upright. */
+em:lang(ar) {
+  font-style: normal;
+}
+
+/* Arabic letters join up, so extra letter spacing would pull them apart. */
+:lang(ar) {
+  letter-spacing: normal;
+}
+
 /* Latin names, tech and IDs inside Arabic pages */
-.latin {
-  font-family: var(--font-plex), system-ui, sans-serif;
+.latin,
+[lang="en"] {
+  font-family: var(--font-plex), var(--font-plex-ar), system-ui, sans-serif;
 }
 .latin.font-display {
-  font-family: var(--font-instrument), ui-serif, Georgia, serif;
+  font-family: var(--font-instrument), var(--font-amiri), ui-serif, Georgia, serif;
   font-weight: 400;
 }
 
@@ -155,7 +166,44 @@ li:lang(ar) {
   animation-direction: reverse;
 }
 
+/* ── Hero mirror stage: wipe between English and Arabic ── */
+.mirror-wipe {
+  transition: clip-path 1s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.mirror-edge {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--accent);
+  box-shadow: 0 0 18px 2px var(--accent);
+  pointer-events: none;
+}
+.mirror-edge-to-left {
+  animation: edge-to-left 1s cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+.mirror-edge-to-right {
+  animation: edge-to-right 1s cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+@keyframes edge-to-left {
+  0% { left: 100%; opacity: 0; }
+  8%, 92% { opacity: 1; }
+  100% { left: 0%; opacity: 0; }
+}
+@keyframes edge-to-right {
+  0% { left: 0%; opacity: 0; }
+  8%, 92% { opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .mirror-wipe {
+    transition: none;
+  }
+  .mirror-edge {
+    display: none;
+  }
   html {
     scroll-behavior: auto;
   }
