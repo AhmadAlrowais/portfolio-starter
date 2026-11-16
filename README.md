@@ -1,3 +1,27 @@
+# Yara Al-Mansouri · Portfolio
+
+A bilingual (English / Arabic) portfolio built from the Portfolio Summit 2026 CV.
+
+**Live site:** https://ahmadalrowais.github.io/portfolio-starter/
+
+## What's inside
+
+- **Every part of the CV in `data/cv.js`**: summary, highlights, all 12 roles, 8 projects, skills, education, 20 certifications, awards, patents, publications, talks, media, leadership, languages and interests. Components only read from it.
+- **English and Arabic**: `/` and `/ar/`, with a full right-to-left layout and Arabic typography (IBM Plex Sans Arabic + Amiri). This fits Yara's work on Arabic interfaces.
+- **A case study for each project** at `/projects/<slug>` (and `/ar/projects/<slug>`), told as problem → action → result.
+- **Interactive pieces**: dark mode that remembers your choice, a mobile menu, the nav highlighting the section you're reading, a reading progress bar, counters that animate, filters for the certifications, copy buttons, and a contact form that opens your email app.
+- **Accessibility**: skip link, visible keyboard focus, labelled controls, and it respects reduced-motion settings. Everything is readable even with JavaScript off.
+- **Self-hosted fonts** in `app/fonts` (SIL Open Font License), so no requests go to outside servers.
+
+## Run it locally
+
+```bash
+npm install
+npm run dev
+```
+
+---
+
 # Portfolio Summit · Starter
 
 Turn the CV you were given into a live portfolio website.
