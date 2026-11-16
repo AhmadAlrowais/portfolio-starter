@@ -9,6 +9,7 @@ import CountUp from "@/components/CountUp";
 import Certifications from "@/components/Certifications";
 import ContactPanel from "@/components/ContactPanel";
 import Icon from "@/components/Icon";
+import MirrorStage from "@/components/MirrorStage";
 
 const S = ui.sections;
 
@@ -36,89 +37,86 @@ export default function HomeView({ lang }) {
   return (
     <SiteShell lang={lang}>
       {/* ── Hero ─────────────────────────────────────────── */}
-      <section className="relative grid items-center gap-12 pb-16 pt-10 sm:pt-16 lg:grid-cols-12 lg:pb-24">
-        <div className="lg:col-span-7">
-          <div className="flex flex-wrap gap-2">
-          <p className="rise inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-1.5 text-sm text-muted">
-            <Icon name="pin" className="h-4 w-4 text-accent" />
+      <section className="relative pb-16 pt-10 text-center sm:pt-16 lg:pb-24">
+        <div
+          className="dot-grid pointer-events-none absolute inset-x-0 top-0 -z-10 h-[30rem] [mask-image:radial-gradient(ellipse_at_top,black,transparent_70%)]"
+          aria-hidden="true"
+        />
+
+        <p className="rise inline-flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-sm text-muted">
+          <span className="inline-flex items-center gap-2">
+            <span className="h-2 w-2 rounded-full bg-accent" aria-hidden="true" />
             {t(cv.location, lang)}
-          </p>
-          <p className="rise inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-1.5 text-sm text-muted">
-            <Icon name="book" className="h-4 w-4 text-accent" />
-            {t(ui.phd, lang)}
-          </p>
-          </div>
+          </span>
+          <span className="text-line" aria-hidden="true">/</span>
+          <span>{t(ui.phd, lang)}</span>
+        </p>
 
-          <h1 className="rise font-display mt-6 text-[clamp(3.2rem,9vw,6.5rem)] leading-[0.95]" style={{ "--delay": "80ms" }}>
-            {first} <span className="text-muted">{rest[0]}</span>
-            <br />
-            <em className="text-accent">{rest.slice(1).join(" ")}</em>
-          </h1>
-          <p lang={other} dir={other === "ar" ? "rtl" : "ltr"} className={`rise font-display mt-3 w-fit text-2xl text-muted ${other === "en" ? "latin" : ""}`} style={{ "--delay": "140ms" }}>
-            {t(cv.name, other)}
-          </p>
+        <h1
+          className="rise font-display mx-auto mt-6 max-w-5xl text-balance text-[clamp(3.25rem,9.5vw,6.75rem)] leading-[0.95]"
+          style={{ "--delay": "80ms" }}
+        >
+          {first} {rest[0]} <em className="text-accent">{rest.slice(1).join(" ")}</em>
+        </h1>
+        <p
+          lang={other}
+          dir={other === "ar" ? "rtl" : "ltr"}
+          className={`rise font-display mx-auto mt-3 w-fit text-2xl text-muted sm:text-3xl ${other === "en" ? "latin" : ""}`}
+          style={{ "--delay": "140ms" }}
+        >
+          {t(cv.name, other)}
+        </p>
 
-          <ul className="rise mt-8 flex flex-wrap gap-2" style={{ "--delay": "200ms" }}>
-            {cv.roles.map((r) => (
-              <li key={t(r, "en")} className="rounded-full bg-ink px-3.5 py-1.5 text-sm text-bg">
-                {t(r, lang)}
-              </li>
-            ))}
-          </ul>
+        <ul
+          className="rise mt-8 flex flex-col items-center gap-x-4 gap-y-1 font-medium sm:flex-row sm:flex-wrap sm:justify-center sm:text-lg"
+          style={{ "--delay": "200ms" }}
+        >
+          {cv.roles.map((r, i) => (
+            <li key={t(r, "en")} className="flex items-center gap-4">
+              {i > 0 && <span className="hidden text-accent sm:inline" aria-hidden="true">✦</span>}
+              {t(r, lang)}
+            </li>
+          ))}
+        </ul>
 
-          <p className="rise mt-6 max-w-xl text-lg text-muted sm:text-xl" style={{ "--delay": "260ms" }}>
-            {t(cv.tagline, lang)}
-          </p>
+        <p className="rise mx-auto mt-4 max-w-2xl text-lg text-muted sm:text-xl" style={{ "--delay": "260ms" }}>
+          {t(cv.tagline, lang)}
+        </p>
 
-          <div className="rise mt-9 flex flex-wrap gap-3" style={{ "--delay": "320ms" }}>
-            {cv.cvFile && (
-              <a
-                href={withBase(`/${cv.cvFile}`)}
-                download
-                className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3.5 text-sm font-medium text-accent-ink transition-transform hover:-translate-y-0.5"
-              >
-                <Icon name="download" />
-                {t(ui.downloadCv, lang)}
-              </a>
-            )}
-            <Link
-              href="#projects"
-              className="inline-flex items-center gap-2 rounded-full border border-ink px-6 py-3.5 text-sm font-medium transition-colors hover:bg-ink hover:text-bg"
+        <div className="rise mt-9 flex flex-wrap items-center justify-center gap-3" style={{ "--delay": "320ms" }}>
+          {cv.cvFile && (
+            <a
+              href={withBase(`/${cv.cvFile}`)}
+              download
+              className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3.5 text-sm font-medium text-accent-ink transition-transform hover:-translate-y-0.5"
             >
-              {t(ui.viewWork, lang)}
-              <Icon name="arrow" flip />
-            </Link>
-            <Link href="#contact" className="inline-flex items-center gap-2 px-3 py-3.5 text-sm font-medium underline-offset-4 hover:underline">
-              {t(ui.getInTouch, lang)}
-            </Link>
-          </div>
+              <Icon name="download" />
+              {t(ui.downloadCv, lang)}
+            </a>
+          )}
+          <Link
+            href="#projects"
+            className="inline-flex items-center gap-2 rounded-full border border-ink px-6 py-3.5 text-sm font-medium transition-colors hover:bg-ink hover:text-bg"
+          >
+            {t(ui.viewWork, lang)}
+            <Icon name="arrow" flip />
+          </Link>
+          <Link href="#contact" className="inline-flex items-center gap-2 px-3 py-3.5 text-sm font-medium underline-offset-4 hover:underline">
+            {t(ui.getInTouch, lang)}
+          </Link>
         </div>
 
-        {/* Two scripts, one designer: the visual idea behind the site */}
-        <figure className="rise relative lg:col-span-5" style={{ "--delay": "200ms" }}>
-          <div className="dot-grid relative aspect-[4/5] overflow-hidden rounded-[2rem] border border-line bg-surface sm:aspect-square lg:aspect-[4/5]">
-            <div className="absolute inset-0 flex items-center justify-center gap-2 pb-36" dir="ltr" aria-hidden="true">
-              <span className="font-display text-[11rem] leading-none text-ink sm:text-[13rem]" style={{ fontFamily: "var(--font-instrument)" }}>
-                Y
-              </span>
-              <span className="text-[10rem] leading-none text-accent sm:text-[12rem]" style={{ fontFamily: "var(--font-amiri)" }} lang="ar">
-                ي
-              </span>
-            </div>
-            <div className="absolute inset-x-6 top-6 flex items-center justify-between text-xs text-muted" dir="ltr" aria-hidden="true">
-              <span className="latin">LTR →</span>
-              <span className="latin">← RTL</span>
-            </div>
-            <figcaption className="absolute inset-x-4 bottom-4 rounded-2xl border border-line bg-bg/90 p-4 backdrop-blur sm:inset-x-6 sm:bottom-6">
-              <p className="text-xs uppercase tracking-wider text-accent">{t(cover.kind, lang)}</p>
-              <p className="latin font-display mt-1 text-xl leading-snug" dir="ltr">
-                “{cover.title}”
-              </p>
-              <p className="mt-1 text-sm text-muted">
-                <span className="latin">{cover.outlet}</span> · {t(cover.date, lang)}
-              </p>
-            </figcaption>
-          </div>
+        {/* The same profile in two directions: what she is known for */}
+        <figure className="rise mx-auto mt-14 max-w-5xl" style={{ "--delay": "400ms" }}>
+          <MirrorStage lang={lang} />
+          <figcaption className="mt-6">
+            <p className="latin font-display text-2xl italic" dir="ltr">
+              “{cover.title}”
+            </p>
+            <p className="mt-1 text-sm text-muted">
+              {t(cover.kind, lang)} · <span className="latin">{cover.outlet}</span> · {t(cover.date, lang)}
+            </p>
+          </figcaption>
         </figure>
       </section>
 
